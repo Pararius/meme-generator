@@ -1,0 +1,11 @@
+new:
+    path: /new
+    controller: App\Controller\MemeController::new
+
+index:
+    path: /
+    controller: App\Controller\MemeController::index
+
+view:
+    path: /view/{id}
+    controller: App\Controller\MemeController::view

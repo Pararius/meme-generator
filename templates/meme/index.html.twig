@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+  <h1>Meme Generator</h1>
+  <p><a href="{{ path('new') }}">Create a new meme</a></p>
+  {% if memes|length %}
+    <p>The latest memes...</p>
+    <ul>
+    {% for meme in memes %}
+      <li><a href="{{ path('view', {id: meme}) }}">{{ meme }}</a></li>
+    {% endfor %}
+    </ul>
+  {% else %}
+    <p>You have no memes yet...</p>
+  {% endif %}
+{% endblock %}

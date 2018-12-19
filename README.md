@@ -25,6 +25,8 @@ To get this app up and running, you will need to define the following services i
 
 - The official Composer image uses the Composer binary as it's entrypoint.
 All you got to do is pass the `command` you want to run upon spinning up the container.
+- The expected command is `install`, so `composer install` will be run. The `composer` part is the entrypoint of this
+image, so you don't need to supply that.
 - Composer expects to find your composer.json and composer.lock files in the `/app` folder inside the container.
 
 ## nginx

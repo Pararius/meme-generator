@@ -31,6 +31,7 @@ All you got to do is pass the `command` you want to run upon spinning up the con
 
 - You will need to mount your vhost configuration as `/etc/nginx/conf.d/vhost.conf`
 - You will need to forward any local port to port 80 in the container
+- The webroot for your application is `/app`. Make sure to add a mount to your project source code using [volumes](https://docs.docker.com/compose/compose-file/#volume-configuration-reference)
 
 ## php
 

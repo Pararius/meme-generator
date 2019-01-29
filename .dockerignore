@@ -1,2 +1,10 @@
-var/cache/dev/
-vendor/
+/.env.local
+/.env.*.local
+/.git/
+/docker/
+/public/bundles/
+/tests/
+/var/
+/vendor/
+/.phpunit
+/phpunit.xml

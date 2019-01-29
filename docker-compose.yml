@@ -1,0 +1,21 @@
+version: '3.7'
+services:
+  nginx:
+    image: nginx:1.15
+    ports:
+      - '8080:80'
+    volumes:
+      - ${PWD}/public/img:/app/public/img
+      - ${PWD}/docker/nginx/conf.vhost:/etc/nginx/conf.d/vhost.conf
+  php:
+    build:
+      context: ${PWD}
+      target: php-dev
+    image: meme-generator/php-dev:latest
+    env_file:
+      - .env
+    volumes:
+      - ${PWD}:/app
+
+  redis:
+    image: redis:alpine

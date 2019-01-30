@@ -1,0 +1,75 @@
+language: generic
+
+branches:
+  only:
+    - efficient-build
+
+services:
+  - docker
+
+env:
+  global:
+    - BUILD=${TRAVIS_COMMIT::8}
+
+# cache:
+#   directories:
+#     - "$HOME/composer/"
+
+stages:
+  - name: build base
+  - name: build and test
+  - name: build release
+
+jobs:
+  include:
+    - stage: build base
+      name: php and php-dev
+      before_script:
+        - make login
+        - make -k pull/php pull/php-dev || true
+        - |
+          if [ -z "${TRAVIS_PULL_REQUEST_SHA}" ]; then
+            export IMAGE_TAG=${TRAVIS_BRANCH}-${BUILD}
+          else
+            export IMAGE_TAG=pr-${$TRAVIS_PULL_REQUEST_SHA::8}
+          fi
+        - export CACHE_IMAGE_TAG=${IMAGE_TAG}
+      script:
+        - make build/php build/php-dev
+        - make push/php push/php-dev
+    - stage: build and test
+      name: app
+      before_script:
+        - make login
+        - make pull/source || true
+        - |
+          if [ -z "${TRAVIS_PULL_REQUEST_SHA}" ]; then
+            export IMAGE_TAG=${TRAVIS_BRANCH}-${BUILD}
+          else
+            export IMAGE_TAG=pr-${$TRAVIS_PULL_REQUEST_SHA::8}
+          fi
+        - export CACHE_IMAGE_TAG=${IMAGE_TAG}
+        - make pull/php pull/php-dev
+      script:
+        - make build/source
+        - make test/source
+        - make push/source
+    - stage: build release
+      name: app
+      before_script:
+        - make login
+        - |
+          if [ -z "${TRAVIS_PULL_REQUEST_SHA}" ]; then
+            export IMAGE_TAG=${TRAVIS_BRANCH}-${BUILD}
+          else
+            export IMAGE_TAG=pr-${$TRAVIS_PULL_REQUEST_SHA::8}
+          fi
+        - export CACHE_IMAGE_TAG=${IMAGE_TAG}
+        - make pull/php pull/php-dev pull/source
+      script:
+        - make build/app
+      deploy:
+        provider: script
+        script: make release/php release/php-dev release/source release/app
+        on:
+          branch: efficient-build

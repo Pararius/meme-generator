@@ -11,10 +11,6 @@ env:
   global:
     - BUILD=${TRAVIS_COMMIT::8}
 
-# cache:
-#   directories:
-#     - "$HOME/composer/"
-
 stages:
   - name: build base
   - name: build and test
@@ -31,7 +27,7 @@ jobs:
           if [ -z "${TRAVIS_PULL_REQUEST_SHA}" ]; then
             export IMAGE_TAG=${TRAVIS_BRANCH}-${BUILD}
           else
-            export IMAGE_TAG=pr-${$TRAVIS_PULL_REQUEST_SHA::8}
+            export IMAGE_TAG="pr-${TRAVIS_PULL_REQUEST_SHA}"
           fi
         - export CACHE_IMAGE_TAG=${IMAGE_TAG}
       script:
@@ -46,7 +42,7 @@ jobs:
           if [ -z "${TRAVIS_PULL_REQUEST_SHA}" ]; then
             export IMAGE_TAG=${TRAVIS_BRANCH}-${BUILD}
           else
-            export IMAGE_TAG=pr-${$TRAVIS_PULL_REQUEST_SHA::8}
+            export IMAGE_TAG="pr-${TRAVIS_PULL_REQUEST_SHA}"
           fi
         - export CACHE_IMAGE_TAG=${IMAGE_TAG}
         - make pull/php pull/php-dev
@@ -62,7 +58,7 @@ jobs:
           if [ -z "${TRAVIS_PULL_REQUEST_SHA}" ]; then
             export IMAGE_TAG=${TRAVIS_BRANCH}-${BUILD}
           else
-            export IMAGE_TAG=pr-${$TRAVIS_PULL_REQUEST_SHA::8}
+            export IMAGE_TAG="pr-${TRAVIS_PULL_REQUEST_SHA}"
           fi
         - export CACHE_IMAGE_TAG=${IMAGE_TAG}
         - make pull/php pull/php-dev pull/source

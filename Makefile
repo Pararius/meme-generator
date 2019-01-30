@@ -24,7 +24,7 @@ build/php:
 build/php-dev:
 	docker build \
 		-t $(REGISTRY)/$(IMAGE_PREFIX)-php-dev:$(IMAGE_TAG) \
-		--target source \
+		--target php-dev \
 		--cache-from $(REGISTRY)/$(IMAGE_PREFIX)-php:$(CACHE_IMAGE_TAG) \
 		--cache-from $(REGISTRY)/$(IMAGE_PREFIX)-php-dev:latest \
 		${PWD}

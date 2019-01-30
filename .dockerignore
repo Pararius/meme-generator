@@ -11,3 +11,4 @@
 /.travis.yml
 /.env.test
 /.gitignore
+/Makefile

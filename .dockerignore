@@ -9,3 +9,5 @@
 /.phpunit
 /phpunit.xml
 /.travis.yml
+/.env.test
+/.gitignore
